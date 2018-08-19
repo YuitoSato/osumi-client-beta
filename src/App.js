@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
 import Web3 from 'web3';
+import Header from './components/Header';
+import createMuiTheme from '@material-ui/core/es/styles/createMuiTheme';
+import MuiThemeProvider from '@material-ui/core/es/styles/MuiThemeProvider';
+import cyan from '@material-ui/core/es/colors/cyan';
+import orange from '@material-ui/core/es/colors/orange';
+import QuestionList from './components/QuestionList';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: cyan[500] }, // Purple and green play nicely together.
+    secondary: { main: orange[500] }, // This is just green.A700 as hex.
+  },
+});
 
 class App extends Component {
   constructor(props) {
@@ -62,7 +75,9 @@ class App extends Component {
       }
     ];
 
-    const OsumiQAService = new this.web3.eth.Contract(contractAbi, "0x1960ee7c78ede6fac9e8dcff7d7a2429f41e8ded");
+    this.qaService = new this.web3.eth.Contract(contractAbi, "0x67ca2a66ecef7784e3d2325cdab79dd5e77a30c3");
+
+
 
     //qa.methods.createQuestion("what?").send({from: account, gas:3000000}).then(a => console.log(a))
     //
@@ -70,9 +85,17 @@ class App extends Component {
 
   render() {
     return (
-      <h1>HELLO WORLD!</h1>
+      <MuiThemeProvider theme={theme}>
+        <Header/>
+        <QuestionList qaService={this.qaService}/>
+      </MuiThemeProvider>
     )
   }
 }
 
 export default App;
+
+
+// qaService.methods.createQuestion("what?").send({from: account, gas:3000000}).then(a => console.log(a))
+// qa.methods.createQuestion("what?").send({from: account, gas:3000000}).then(a => console.log(a))
+
