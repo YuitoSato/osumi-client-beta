@@ -7,6 +7,7 @@ import MuiThemeProvider from '@material-ui/core/es/styles/MuiThemeProvider';
 import cyan from '@material-ui/core/es/colors/cyan';
 import orange from '@material-ui/core/es/colors/orange';
 import QuestionList from './components/QuestionList';
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 
 const theme = createMuiTheme({
   palette: {
@@ -77,17 +78,15 @@ class App extends Component {
 
     this.qaService = new this.web3.eth.Contract(contractAbi, "0x67ca2a66ecef7784e3d2325cdab79dd5e77a30c3");
 
-
-
-    //qa.methods.createQuestion("what?").send({from: account, gas:3000000}).then(a => console.log(a))
-    //
   }
 
   render() {
     return (
       <MuiThemeProvider theme={theme}>
         <Header/>
-        <QuestionList qaService={this.qaService}/>
+        <BrowserRouter>
+          <Route exact path='/' render={ props => <QuestionList qaService={this.qaService}/> } />
+        </BrowserRouter>
       </MuiThemeProvider>
     )
   }

@@ -30,7 +30,7 @@ class QuestionList extends Component {
             <ListItemText primary="Trash" />
           </ListItem>
           <Divider />
-          <ListItem button component="a" href="#simple-list">
+          <ListItem button component="a">
             <ListItemText primary="Spam" />
           </ListItem>
           <Divider />
