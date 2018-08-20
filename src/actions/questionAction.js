@@ -41,8 +41,9 @@ export const fetchQuestions = qaService => {
     return qaService.methods.getQuestionIdsByOwnerId().call()
       .then(questionIds => {
         const promises = questionIds.map(questionId => {
-          return qaService.methods.getQuestionText(questionId).call().then(text => {
-            return text;
+          return qaService.methods.getQuestionText(questionId).call().then(question => {
+            console.log(question);
+            return question;
           });
         });
         return Promise.all(promises);

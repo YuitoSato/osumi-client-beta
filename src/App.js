@@ -74,7 +74,15 @@ class App extends Component {
         "name": "getQuestionText",
         "outputs": [
           {
-            "name": "",
+            "name": "questionId",
+            "type": "uint256"
+          },
+          {
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "name": "text",
             "type": "string"
           }
         ],
@@ -84,7 +92,7 @@ class App extends Component {
       }
     ];
 
-    this.qaService = new this.web3.eth.Contract(contractAbi, "0xe4c9891c395b47268fe5399f1d7340314577bfd7");
+    this.qaService = new this.web3.eth.Contract(contractAbi, "0x4bb5fa8c45449d546c96e0f7225dbd5ab2eff32b");
 
   }
 

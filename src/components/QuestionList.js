@@ -13,6 +13,9 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
   },
+  item: {
+    'word-wrap': 'break-word',
+  }
 });
 
 class QuestionList extends Component {
@@ -29,7 +32,7 @@ class QuestionList extends Component {
           {questions.map((question, i) => (
             <div key={i}>
             <ListItem button >
-              <ListItemText primary={question} />
+              <ListItemText className={classes.item} primary={question.text} />
             </ListItem>
             <Divider />
             </div>
