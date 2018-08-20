@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/es/Typography/Typography';
@@ -13,6 +14,8 @@ import FormControl from '@material-ui/core/es/FormControl/FormControl';
 import TextField from '@material-ui/core/es/TextField/TextField';
 import Button from '@material-ui/core/es/Button/Button';
 import CardActions from '@material-ui/core/es/CardActions/CardActions';
+import { createQuestion } from '../actions/questionAction';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   root: {
@@ -40,7 +43,6 @@ class Header extends Component {
   };
 
   handleOpen = () => {
-    console.log("lll");
     this.setState({open: true});
   };
 
@@ -55,11 +57,12 @@ class Header extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { questionText } = this.state;
-    console.log(questionText);
+    const { qaService, createQuestion, coinbase } = this.props;
+    createQuestion(qaService, coinbase, questionText);
   }
 
   render() {
-    const {classes} = this.props;
+    const {classes } = this.props;
 
     return (
       <div className={classes.root}>
@@ -117,4 +120,19 @@ class Header extends Component {
   }
 }
 
-export default withStyles(styles)(Header);
+Header.propTypes = {
+  qaService: PropTypes.any.isRequired
+};
+
+const mapStateToProps = state => ({
+  lastTransactionHash: state.lastTransactionHash,
+  isCreatingQuestion: state.creatingQuestion,
+  hasError: state.createQuestionError,
+  coinbase: state.coinbase
+});
+
+const mapDispatchToProps = dispatch => ({
+  createQuestion: (qaService, coinbase, questionText) => dispatch(createQuestion(qaService, coinbase, questionText))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Header));

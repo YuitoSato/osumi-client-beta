@@ -22,18 +22,18 @@ class QuestionList extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, questions } = this.props;
     return (
       <div className={classes.root}>
         <List component="nav">
-          <ListItem button>
-            <ListItemText primary="Trash" />
-          </ListItem>
-          <Divider />
-          <ListItem button component="a">
-            <ListItemText primary="Spam" />
-          </ListItem>
-          <Divider />
+          {questions.map((question, i) => (
+            <div key={i}>
+            <ListItem button >
+              <ListItemText primary={question} />
+            </ListItem>
+            <Divider />
+            </div>
+          ))}
         </List>
       </div>
     )

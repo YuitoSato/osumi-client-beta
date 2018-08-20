@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
 import Web3 from 'web3';
 import Header from './components/Header';
@@ -7,7 +8,9 @@ import MuiThemeProvider from '@material-ui/core/es/styles/MuiThemeProvider';
 import cyan from '@material-ui/core/es/colors/cyan';
 import orange from '@material-ui/core/es/colors/orange';
 import QuestionList from './components/QuestionList';
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
+import { fetchCoinbase } from './actions/coinbaseAction';
+import connect from 'react-redux/es/connect/connect';
 
 const theme = createMuiTheme({
   palette: {
@@ -17,6 +20,11 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
+  componentWillMount() {
+    const { fetchCoinbase } = this.props;
+    fetchCoinbase(this.web3);
+  }
+
   constructor(props) {
     super(props);
     this.web3 = new Web3();
@@ -76,25 +84,33 @@ class App extends Component {
       }
     ];
 
-    this.qaService = new this.web3.eth.Contract(contractAbi, "0x67ca2a66ecef7784e3d2325cdab79dd5e77a30c3");
+    this.qaService = new this.web3.eth.Contract(contractAbi, "0xe4c9891c395b47268fe5399f1d7340314577bfd7");
 
   }
 
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Header/>
+        <Header qaService={this.qaService} />
         <BrowserRouter>
-          <Route exact path='/' render={ props => <QuestionList qaService={this.qaService}/> } />
+          <Route exact path='/' render={ props => <QuestionList qaService={this.qaService} /> } />
         </BrowserRouter>
       </MuiThemeProvider>
     )
   }
 }
 
-export default App;
+App.propTypes = {
+  fetchCoinbase: PropTypes.any.isRequired
+};
 
+const mapStateToProps = state => ({
+  coinbase: state.coinbase,
+});
 
-// qaService.methods.createQuestion("what?").send({from: account, gas:3000000}).then(a => console.log(a))
-// qa.methods.createQuestion("what?").send({from: account, gas:3000000}).then(a => console.log(a))
+const mapDispatchToProps = dispatch => ({
+  fetchCoinbase: (web3) => dispatch(fetchCoinbase(web3))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
